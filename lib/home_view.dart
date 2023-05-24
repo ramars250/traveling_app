@@ -48,11 +48,12 @@ class HomeView extends ConsumerWidget {
                     ),
                     child: ListTile(
                       onTap: () {
+                        ref.read(documentIdProvider.notifier).state = scheduleItem.id;
                         Navigator.push(
                             context,
                             MaterialPageRoute(
                                 builder: (context) =>
-                                    const ScheduleDetailView()));
+                                    const ScheduleDetailView1()));
                       },
                       leading: Text(
                         scheduleItem['location'],
@@ -86,8 +87,6 @@ class HomeView extends ConsumerWidget {
           ref.read(selectedDateTimeProvider.notifier).state = null;
           showDialog(
               context: context, builder: (context) => const ScheduleView());
-          // Navigator.push(context,
-          //     MaterialPageRoute(builder: (context) => const ScheduleView()));
         },
         tooltip: '添加行程',
         child: const Icon(Icons.add),

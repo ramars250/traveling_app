@@ -46,6 +46,18 @@ class FireCrud {
     }
   }
 
+  static Future updateSchedule(documentId, byteData) async {
+    final data = {
+      // 'documentId': documentId,
+      'image': byteData
+    };
+    try {
+      await _collection.doc('$documentId').update(data);
+    } catch (e) {
+      print(e);
+    }
+  }
+
   //刪除
   static Future delTravel(docId) async {
     await _collection.doc(docId).delete().then(
