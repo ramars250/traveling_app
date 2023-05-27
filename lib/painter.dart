@@ -2,11 +2,13 @@ import 'package:flutter/material.dart';
 
 class SketchPainter extends CustomPainter {
   final List<Path> paths;
-
   //選中的路徑
   final int? selectedPathIndex;
+  final List<List<Offset>> points;
 
-  SketchPainter(this.paths, this.selectedPathIndex);
+
+  SketchPainter(this.paths, this.selectedPathIndex, this.points,
+      );
 
   static final pen = Paint()
     ..color = Colors.black
@@ -39,6 +41,16 @@ class SketchPainter extends CustomPainter {
       } else {
         canvas.drawPath(paths[i], pen);
       }
+    }
+    for (final pathPoints in points) {
+      final path = Path();
+      if (pathPoints.isNotEmpty) {
+        path.moveTo(pathPoints.first.dx, pathPoints.first.dy);
+        for (int i = 1; i < pathPoints.length; i++) {
+          path.lineTo(pathPoints[i].dx, pathPoints[i].dy);
+        }
+      }
+      canvas.drawPath(path, pen);
     }
   }
 

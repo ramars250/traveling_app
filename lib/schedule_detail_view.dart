@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:traveling_app/painter.dart';
 import 'package:traveling_app/provider.dart';
+import 'package:traveling_app/test_page.dart';
 
 class ScheduleDetailView1 extends ConsumerWidget {
   const ScheduleDetailView1({Key? key}) : super(key: key);
@@ -19,7 +20,7 @@ class ScheduleDetailView1 extends ConsumerWidget {
         child: Column(
           children: [
             Container(
-              color: Colors.white,
+              color: Colors.yellow[200],
               child: Row(
                 children: [
                   ElevatedButton(
@@ -28,7 +29,12 @@ class ScheduleDetailView1 extends ConsumerWidget {
                   ),
                   const Spacer(),
                   ElevatedButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => const TestPage()));
+                    },
                     child: const Icon(Icons.move_down),
                   ),
                 ],
@@ -49,6 +55,7 @@ class ScheduleDetailView1 extends ConsumerWidget {
                         painter: SketchPainter(
                           scheduleDetail.paths,
                           scheduleDetail.selectedPathIndex,
+                          scheduleDetail.pointsList,
                         ),
                         child: Container(),
                       ),

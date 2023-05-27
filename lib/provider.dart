@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:traveling_app/schedule_detail_model.dart';
 import 'package:traveling_app/schedule_notifier.dart';
 import 'package:traveling_app/schedule_detail_viewmodel.dart';
 
