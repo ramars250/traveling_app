@@ -2,6 +2,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:traveling_app/painter.dart';
+import 'package:traveling_app/palette.dart';
 import 'package:traveling_app/provider.dart';
 import 'package:traveling_app/test_page.dart';
 
@@ -28,6 +29,23 @@ class ScheduleDetailView1 extends ConsumerWidget {
                     child: const Icon(Icons.save),
                   ),
                   const Spacer(),
+                  IconButton(
+                    onPressed: () {},
+                    icon: const Icon(
+                      Icons.undo,
+                    ),
+                  ),
+                  IconButton(
+                    onPressed: () {
+                      showColorPickerDialog(context, (Color selectedColor) {
+                        scheduleDetail.selectedColor = selectedColor;
+                      });
+                    },
+                    icon: const Icon(
+                      Icons.palette,
+                      color: Colors.orange,
+                    ),
+                  ),
                   ElevatedButton(
                     onPressed: () {
                       Navigator.push(

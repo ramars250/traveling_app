@@ -12,8 +12,10 @@ class TestPage extends ConsumerWidget {
     return Scaffold(
       body: SafeArea(
         child: CustomPaint(
-          foregroundPainter:
-              SketchPainter(testProvider.paths, null, testProvider.pointsList),
+          foregroundPainter: SketchPainter(
+              testProvider.paths,
+              null,
+              testProvider.pointsList),
           child: Container(
             color: Colors.yellow[100],
           ),

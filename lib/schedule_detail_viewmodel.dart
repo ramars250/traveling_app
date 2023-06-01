@@ -1,13 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:traveling_app/crud_service.dart';
+import 'package:traveling_app/path_model.dart';
 
 class ScheduleDetailViewModel extends ChangeNotifier {
   // 路徑列表，用於存儲繪製的路徑
-  final List<Path> paths = [];
+  final List<PathModel> paths = [];
+  //選中的顏色
+  Color selectedColor = Colors.black;
+  //儲存路徑的點
   List<List<Offset>> pointsList = [];
+  //路徑的計數器
   int points = 0;
   // 當前正在繪製的路徑
   Path? _current;
+  //儲存路徑歷史紀錄
+  final List<List<PathModel>> history = [];
   // 是否處於移動模式
   bool isMoving = false;
   // 選中的路徑索引
@@ -28,13 +35,13 @@ class ScheduleDetailViewModel extends ChangeNotifier {
     _documentId = id;
     notifyListeners();
   }
-
+  //處理手指按下事件，創建新的路徑並添加到列表中或選擇指定位置的路徑
   void handlePanDown(DragDownDetails details) {
     if (!isMoving) {
       // 創建新的路徑
       _current = Path();
       // 將新的路徑添加到列表中
-      paths.add(_current!);
+      paths.add(PathModel(_current!, selectedColor));
       // 移動到按下的位置
       _current!.moveTo(
         details.localPosition.dx,
@@ -51,7 +58,7 @@ class ScheduleDetailViewModel extends ChangeNotifier {
       setSelectedPath(details.localPosition);
     }
   }
-
+  //處理手指移動事件，根據模式執行相應操作
   void handlePanUpdate(DragUpdateDetails details) {
     if (isMoving && selectedPathIndex != null) {
       // 移動選中的路徑
@@ -69,7 +76,7 @@ class ScheduleDetailViewModel extends ChangeNotifier {
       notifyListeners();
     }
   }
-
+  //處理手指抬起事件
   void handlePanEnd() {
     if (_current != null && documentId != null) {
       // 將當前路徑轉換為字符串表示
@@ -80,11 +87,11 @@ class ScheduleDetailViewModel extends ChangeNotifier {
       notifyListeners();
     }
   }
-
+  //選擇指定位置的路徑
   void setSelectedPath(Offset position) {
     selectedPathIndex = null;
     for (int i = paths.length - 1; i >= 0; i--) {
-      Path path = paths[i];
+      Path path = paths[i].path;
       // 判斷位置是否在路徑的範圍內
       if (path.getBounds().inflate(20.0).contains(position)) {
         selectedPathIndex = i;
@@ -93,9 +100,8 @@ class ScheduleDetailViewModel extends ChangeNotifier {
     }
     notifyListeners();
   }
-
+  // 切換移動模式
   void toggleMovingMode() {
-    // 切換移動模式
     isMoving = !isMoving;
     // 如果退出移動模式，取消選中的路徑
     if (!isMoving && selectedPathIndex != null) {
@@ -103,7 +109,7 @@ class ScheduleDetailViewModel extends ChangeNotifier {
     }
     notifyListeners();
   }
-
+  //從路徑中取得點的集合
   getPointsFromPath(Path path) {
     final metrics = path.computeMetrics(forceClosed: false);
     final List<List<Offset>> points = [];
